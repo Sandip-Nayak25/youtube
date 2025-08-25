@@ -40,7 +40,7 @@ function App() {
 
   const THEME = dark ? DARK_THEME : LIGHT_THEME;
 
-  const BACKEND = 'http://127.0.0.1:5002';
+  const BACKEND = 'http://172.31.115.130:5002';
 
   const handleStart = async (e) => {
     e.preventDefault();
