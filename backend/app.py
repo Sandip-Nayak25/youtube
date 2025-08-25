@@ -42,8 +42,7 @@ def download_video_job(url, quality, job_id):
             'progress_hooks': [lambda d: update_progress_hook(d, job_id)],
             'http_headers': {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36'
-            },
-            # 'cookiefile': 'cookies.txt'  # Optional: for restricted videos
+            }
         }
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -51,6 +50,7 @@ def download_video_job(url, quality, job_id):
 
         JOB_FILES[job_id] = filename
         PROGRESS[job_id] = 100
+        print(f"Download completed: {filename} for job_id {job_id}")
 
     except Exception as e:
         PROGRESS[job_id] = -1
@@ -62,7 +62,7 @@ def update_progress_hook(d, job_id):
         downloaded = d.get('downloaded_bytes', 0)
         if total:
             percent = int(downloaded / total * 100)
-            if percent > 100: percent = 100
+            percent = min(percent, 100)
             PROGRESS[job_id] = percent
     if d['status'] == 'finished':
         PROGRESS[job_id] = 100
@@ -76,8 +76,8 @@ def start_download():
         return jsonify({'error': 'No URL provided'}), 400
     job_id = str(uuid.uuid4())
     PROGRESS[job_id] = 0
-    t = threading.Thread(target=download_video_job, args=(url, quality, job_id))
-    t.start()
+    threading.Thread(target=download_video_job, args=(url, quality, job_id)).start()
+    print(f"Started download job {job_id} for URL {url}")
     return jsonify({"job_id": job_id})
 
 @app.route('/progress', methods=['GET'])
@@ -90,11 +90,15 @@ def progress():
 def get_file():
     job_id = request.args.get('job_id')
     filename = JOB_FILES.get(job_id)
+    print(f"File request for job_id: {job_id}, filename: {filename}")
     if filename and os.path.exists(filename):
         response = send_file(filename, as_attachment=True, download_name=filename)
-        threading.Thread(target=lambda: (time.sleep(3), os.remove(filename))).start()
+        threading.Thread(target=lambda: (time.sleep(5), os.remove(filename))).start()
         return response
-    return "File not ready", 400
+    else:
+        print(f"File not ready for job_id: {job_id}")
+        return "File not ready", 400
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)
+    
