@@ -40,7 +40,7 @@ function App() {
 
   const THEME = dark ? DARK_THEME : LIGHT_THEME;
 
-  const BACKEND = 'http://172.31.115.130:5002';
+  const BACKEND = 'https://0e1f8e87-6221-4451-8ba4-bdf531d7699a-00-39solq6fsydy3.riker.repl.co';
 
   const handleStart = async (e) => {
     e.preventDefault();
