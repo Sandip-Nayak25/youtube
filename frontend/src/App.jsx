@@ -40,7 +40,7 @@ function App() {
 
   const THEME = dark ? DARK_THEME : LIGHT_THEME;
 
-  const BACKEND = 'http://127.0.0.1:5000';
+  const BACKEND = 'https://12c82f3f8000ad7eeb659972eaa429a5.serveo.net';
 
   const handleStart = async (e) => {
     e.preventDefault();
