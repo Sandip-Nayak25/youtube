@@ -40,7 +40,7 @@ function App() {
 
   const THEME = dark ? DARK_THEME : LIGHT_THEME;
 
-  const BACKEND = 'https://sandipmyapp.serveo.net';
+  const BACKEND = 'http://127.0.0.1:5002';
 
   const handleStart = async (e) => {
     e.preventDefault();
