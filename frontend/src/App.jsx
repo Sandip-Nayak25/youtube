@@ -40,7 +40,7 @@ function App() {
 
   const THEME = dark ? DARK_THEME : LIGHT_THEME;
 
-  const BACKEND = 'https://d69769dd-f040-423f-b45d-8b9bcb0e047b-00-zgpajz6qbwe6.riker.replit.dev:5000';
+  const BACKEND = 'https://d69769dd-f040-423f-b45d-8b9bcb0e047b-00-zgpajz6qbwe6.riker.replit.dev:3000';
 
   const handleStart = async (e) => {
     e.preventDefault();
